@@ -3,9 +3,9 @@ import { HydratedDocument } from 'mongoose';
 
 export type NoteDocument = HydratedDocument<Note>;
 
-@Schema()
+@Schema({ timestamps: true })
 export class Note {
-  @Prop()
+  @Prop({ isRequired: true })
   title: string;
 
   @Prop()
