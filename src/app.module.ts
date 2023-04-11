@@ -6,6 +6,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { NotesModule } from './notes/notes.module';
 import { getMongoConfig } from './config/mongo.config';
+import { TagsModule } from './tags/tags.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { getMongoConfig } from './config/mongo.config';
       useFactory: getMongoConfig,
     }),
     NotesModule,
+    TagsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
