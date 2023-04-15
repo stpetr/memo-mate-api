@@ -9,6 +9,7 @@ import { Tag, TagDocument } from './schemas/tag.schema';
 @Injectable()
 export class TagsService {
   constructor(@InjectModel(Tag.name) private tagModel: Model<TagDocument>) {}
+
   async create(createTagDto: CreateTagDto) {
     return this.tagModel.create(createTagDto);
   }
