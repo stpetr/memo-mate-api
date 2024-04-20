@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Types } from 'mongoose';
 
-import { Tag } from '../../tags/schemas/tag.schema';
+import { Tag } from 'tags/schemas/tag.schema';
 
 export type NoteDocument = HydratedDocument<Note>;
 

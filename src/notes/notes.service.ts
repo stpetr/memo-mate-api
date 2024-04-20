@@ -2,7 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 
-import { Tag, TagDocument } from '../tags/schemas/tag.schema';
+import { Tag, TagDocument } from 'tags/schemas/tag.schema';
+
 import { CreateNoteDto } from './dto/create-note.dto';
 import { UpdateNoteDto } from './dto/update-note.dto';
 import { Note, NoteDocument } from './schemas/note.schema';
