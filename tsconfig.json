@@ -8,8 +8,16 @@
     "allowSyntheticDefaultImports": true,
     "target": "es2017",
     "sourceMap": true,
-    "outDir": "./dist",
-    "baseUrl": "./",
+    "outDir": "dist",
+    "baseUrl": "src",
+    "paths": {
+      "auth/*": ["auth/*"],
+      "common/*": ["common/*"],
+      "notes/*": ["notes/*"],
+      "tags/*": ["tags/*"],
+      "tasks/*": ["tasks/*"],
+      "users/*": ["users/*"]
+    },
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": false,
