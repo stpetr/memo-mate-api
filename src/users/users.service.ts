@@ -22,7 +22,6 @@ export class UsersService {
   }
 
   async findByEmail(email: string): Promise<User | undefined> {
-    const emailRegex = new RegExp(`^\\b${email}\\b$`, 'i');
-    return this.userModel.findOne({ email: emailRegex }).exec();
+    return this.userModel.findOne({ email: email.toLowerCase() }).exec();
   }
 }
