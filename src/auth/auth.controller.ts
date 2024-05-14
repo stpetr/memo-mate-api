@@ -27,11 +27,7 @@ export class AuthController {
   @HttpCode(HttpStatus.CREATED)
   @Post('register')
   signUp(@Body() signUpDto: SignUpDto) {
-    return this.authService.signUp(
-      signUpDto.email,
-      signUpDto.password,
-      signUpDto.repeatPassword,
-    );
+    return this.authService.signUp(signUpDto.email, signUpDto.password);
   }
 
   @UseGuards(AuthGuard)

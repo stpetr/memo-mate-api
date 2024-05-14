@@ -1,11 +1,21 @@
 import { IsEmail, IsString, Length, NotContains } from 'class-validator';
 import { Transform } from 'class-transformer';
 
-import { trim, noSpaces } from 'common/validators';
+import {
+  IsUserEmailAvailable,
+  MatchesProperty,
+  noSpaces,
+  trim,
+  toLowerCase,
+} from 'common/validators';
 
 export class SignUpDto {
   @IsEmail()
+  @IsUserEmailAvailable({
+    message: 'This email is already taken',
+  })
   @Transform(trim)
+  @Transform(toLowerCase)
   readonly email: string;
   @IsString()
   @NotContains(...noSpaces())
@@ -14,5 +24,8 @@ export class SignUpDto {
   @IsString()
   @NotContains(...noSpaces())
   @Length(8, 32)
-  readonly repeatPassword: string;
+  @MatchesProperty('password', {
+    message: 'Passwords must match',
+  })
+  readonly confirmPassword: string;
 }

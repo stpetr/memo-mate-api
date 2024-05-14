@@ -39,20 +39,7 @@ export class AuthService {
     };
   }
 
-  async signUp(
-    email: string,
-    password: string,
-    repeatPassword: string,
-  ): Promise<any> {
-    const exisingUser = await this.usersService.findByEmail(email);
-
-    if (exisingUser) {
-      throw new BadRequestException(['User with this email already exists']);
-    }
-    if (password !== repeatPassword) {
-      throw new BadRequestException(['Passwords must match']);
-    }
-
+  async signUp(email: string, password: string): Promise<any> {
     const user = await this.usersService.create({
       email,
       password,
