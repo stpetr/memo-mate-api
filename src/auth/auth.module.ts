@@ -7,7 +7,7 @@ import { UsersModule } from 'users/users.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 
-const TOKEN_EXPIRATION_TIME = '300s';
+const TOKEN_EXPIRATION_TIME = '1d';
 
 @Module({
   imports: [
