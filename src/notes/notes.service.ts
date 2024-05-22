@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 
 import { Tag, TagDocument } from 'tags/schemas/tag.schema';
+import { User } from 'users/schemas/user.schema';
 
 import { CreateNoteDto } from './dto/create-note.dto';
 import { UpdateNoteDto } from './dto/update-note.dto';
@@ -32,37 +33,73 @@ export class NotesService {
     return tagsIds.filter((el) => !!el);
   }
 
-  async create(createNoteDto: CreateNoteDto): Promise<Note> {
-    const note = await this.noteModel.create({
+  async create(createNoteDto: CreateNoteDto, user: User): Promise<Note> {
+    const noteData = {
       ...createNoteDto,
-      tags: await this.prepareTags(createNoteDto.tags),
-    });
+      tagsIds: await this.prepareTags(createNoteDto.tags),
+      userId: user._id,
+    };
+
+    const note = await this.noteModel.create(noteData);
 
     return await note.populate('tags');
   }
 
-  async findAll(): Promise<Note[]> {
-    return this.noteModel.find().populate('tags').exec();
+  async findAll(user: User): Promise<Note[]> {
+    return this.noteModel
+      .find({
+        userId: user._id,
+      })
+      .populate('tags')
+      .exec();
   }
 
-  async findOne(id: string): Promise<Note> {
-    return this.noteModel.findById(id).exec();
+  async findOne(id: string, user: User): Promise<Note> {
+    return this.noteModel
+      .findOne({
+        id,
+        userId: user._id,
+      })
+      .exec();
   }
 
-  async update(id: string, updateNoteDto: UpdateNoteDto): Promise<Note> {
+  async update(
+    id: string,
+    updateNoteDto: UpdateNoteDto,
+    user: User,
+  ): Promise<Note> {
+    const note = await this.noteModel.findOne({
+      _id: id,
+      userId: user._id,
+    });
+
+    if (!note) {
+      throw new NotFoundException();
+    }
+
     return this.noteModel
       .findByIdAndUpdate(
         id,
         {
           ...updateNoteDto,
-          tags: await this.prepareTags(updateNoteDto?.tags),
+          tagsIds: await this.prepareTags(updateNoteDto?.tags),
+          userId: user._id,
         },
         { new: true },
       )
       .populate('tags');
   }
 
-  async remove(id: string): Promise<Note> {
+  async remove(id: string, user: User): Promise<Note> {
+    const note = await this.noteModel.findOne({
+      _id: id,
+      userId: user._id,
+    });
+
+    if (!note) {
+      throw new NotFoundException();
+    }
+
     return this.noteModel.findByIdAndRemove(id);
   }
 }

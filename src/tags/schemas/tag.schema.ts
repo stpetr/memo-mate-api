@@ -1,5 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import { HydratedDocument, Types } from 'mongoose';
+
+import { User } from 'users/schemas/user.schema';
 
 export type TagDocument = HydratedDocument<Tag>;
 
@@ -9,9 +11,14 @@ export type TagDocument = HydratedDocument<Tag>;
   toObject: { virtuals: true, getters: true },
 })
 export class Tag {
-  id?: string;
+  _id: Types.ObjectId;
+  id: string;
+
   @Prop({ isRequired: true })
   name: string;
+
+  @Prop({ type: Types.ObjectId, ref: User.name, isRequired: true })
+  userId: User;
 }
 
 export const TagSchema = SchemaFactory.createForClass(Tag);

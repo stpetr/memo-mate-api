@@ -5,6 +5,7 @@ import {
   Body,
   Patch,
   Param,
+  Req,
   Delete,
   UseGuards,
 } from '@nestjs/common';
@@ -22,30 +23,31 @@ export class NotesController {
   constructor(private readonly notesService: NotesService) {}
 
   @Post()
-  create(@Body() createNoteDto: CreateNoteDto): Promise<Note> {
-    return this.notesService.create(createNoteDto);
+  create(@Body() createNoteDto: CreateNoteDto, @Req() req): Promise<Note> {
+    return this.notesService.create(createNoteDto, req.user);
   }
 
   @Get()
-  findAll(): Promise<Note[]> {
-    return this.notesService.findAll();
+  findAll(@Req() req): Promise<Note[]> {
+    return this.notesService.findAll(req.user);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string): Promise<Note> {
-    return this.notesService.findOne(id);
+  findOne(@Param('id') id: string, @Req() req): Promise<Note> {
+    return this.notesService.findOne(id, req.user);
   }
 
   @Patch(':id')
   update(
     @Param('id') id: string,
     @Body() updateNoteDto: UpdateNoteDto,
+    @Req() req,
   ): Promise<Note> {
-    return this.notesService.update(id, updateNoteDto);
+    return this.notesService.update(id, updateNoteDto, req.user);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<Note> {
-    return this.notesService.remove(id);
+  remove(@Param('id') id: string, @Req() req): Promise<Note> {
+    return this.notesService.remove(id, req.user);
   }
 }

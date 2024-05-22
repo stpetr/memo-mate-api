@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import { HydratedDocument, Types } from 'mongoose';
 
 @Schema({
   timestamps: true,
@@ -7,6 +7,7 @@ import { HydratedDocument } from 'mongoose';
   toObject: { virtuals: true, getters: true },
 })
 export class User {
+  _id: Types.ObjectId;
   id: string;
 
   @Prop({ isRequired: true })
