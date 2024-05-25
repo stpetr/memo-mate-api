@@ -13,7 +13,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: /var/www/nodejs/prod/memomate-api
+        working-directory: /var/www/node/prod/memomate-api
 
     strategy:
       matrix:
