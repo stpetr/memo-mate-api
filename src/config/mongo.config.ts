@@ -11,11 +11,11 @@ export const getMongoConfig = async (
 };
 
 const getMongoString = (configService: ConfigService) => {
-  const login = configService.get('MONGO_LOGIN');
-  const password = configService.get('MONGO_PASSWORD');
-  const host = configService.get('MONGO_HOST');
-  const port = configService.get('MONGO_PORT');
-  const db = configService.get('MONGO_DATABASE');
+  const login = configService.get('DB_LOGIN');
+  const password = configService.get('DB_PASSWORD');
+  const host = configService.get('DB_HOST');
+  const port = configService.get('DB_PORT');
+  const db = configService.get('DB_NAME');
 
   return `mongodb://${
     login && password ? `${login}:${password}@` : ``
