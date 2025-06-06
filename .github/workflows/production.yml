@@ -31,4 +31,4 @@ jobs:
 
       - name: Test envs
         run: env > environment.txt
-        working-directory: ${{ secrets.WORKING_DIRECTORY }
+        working-directory: ${{ secrets.WORKING_DIRECTORY }}
