@@ -23,10 +23,12 @@ jobs:
           echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
           echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
 
-      
-
       - name: Sync files
-        run: rsync -avn --delete --no-times --exclude='.git/' --exclude='node_modules/' "$GITHUB_WORKSPACE/" "${{ secrets.WORKING_DIRECTORY }}/"
+        run: >
+          rsync -av --delete --no-times 
+          --exclude='.git/' 
+          --exclude='node_modules/' 
+          "$GITHUB_WORKSPACE/" "${{ secrets.WORKING_DIRECTORY }}/"
 
       - name: Use Node.js 22
         uses: actions/setup-node@v4
