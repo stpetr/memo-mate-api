@@ -6,10 +6,13 @@ jobs:
   build-and-run:
     runs-on: self-hosted
     environment: production
-    defaults:
-      run:
-        working-directory: ${{secrets.WORKING_DIRECTORY}}
     steps:
+      - name: Change directory
+        run: |
+          WORKING_DIR="${{ secrets.WORKING_DIRECTORY }}"
+          cd "${WORKING_DIR}"
+          echo "Working directory changed to: $PWD"
+
       - name: Checkout code
         uses: actions/checkout@v4
 
