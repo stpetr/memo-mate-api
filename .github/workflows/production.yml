@@ -6,14 +6,16 @@ jobs:
   build-and-run:
     runs-on: self-hosted
     environment: production
+    env:
+      WORKING_DIR: ${{ secrets.WORKING_DIRECTORY }}
     steps:
       - name: Set up working directory
-        run: mkdir -p ${{ secrets.WORKING_DIRECTORY }}
+        run: mkdir -p ${{ env.WORKING_DIR }}
 
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          path: ${{ secrets.WORKING_DIRECTORY }}
+          path: ${{ env.WORKING_DIR }}
 
       - name: Use Node.js 22
         uses: actions/setup-node@v4
@@ -22,13 +24,10 @@ jobs:
           cache: 'npm'
 
       - name: Where am I
-        working-directory: ${{ secrets.WORKING_DIRECTORY }}
         run: pwd
 
       - name: Install dependencies
-        working-directory: ${{ secrets.WORKING_DIRECTORY }}
         run: npm ci
 
       - name: Test envs
-        working-directory: ${{ secrets.WORKING_DIRECTORY }}
         run: env > environment.txt
