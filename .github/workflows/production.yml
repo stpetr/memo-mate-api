@@ -11,7 +11,7 @@ jobs:
         run: |
           WORKING_DIR="${{ secrets.WORKING_DIRECTORY }}"
           cd "${WORKING_DIR}"
-          echo "Working directory changed to: $PWD"
+          pwd
 
       - name: Checkout code
         uses: actions/checkout@v4
