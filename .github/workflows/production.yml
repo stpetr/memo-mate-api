@@ -1,33 +1,26 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
-# @todo remove this todo
-name: Memo Mate API PROD
-
+name: Memomate Server
 on:
   push:
     branches: ["master"]
-
 jobs:
-  build:
+  build-and-run:
     runs-on: self-hosted
-
+    environment: production
     defaults:
       run:
-        working-directory: /var/www/node/prod/memomate-api
-
-    strategy:
-      matrix:
-        node-version: [22.x]
-
+        working-directory: ${{secrets.WORKING_DIRECTORY}}
     steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 22
+        uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: '22'
           cache: 'npm'
-      - run: git fetch origin $GITHUB_REF:$GITHUB_REF -u
-      - run: git checkout $GITHUB_REF -f
-      - run: git pull origin $GITHUB_REF
-      - run: npm ci
-      - run: pm2 restart MEMOMATE_PROD
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Test envs
+        run: env > environment.txt
