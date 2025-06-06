@@ -44,5 +44,5 @@ jobs:
         run: npm run build
         working-directory: ${{ secrets.WORKING_DIRECTORY }}
 
-#      - name: Restart sever
-#        run: sudo systemctl restart ${{ secrets.SERVICE_NAME }}
+      - name: Restart service
+        run: sudo systemctl restart ${{ secrets.SERVICE_NAME }}
