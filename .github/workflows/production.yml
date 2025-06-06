@@ -16,7 +16,7 @@ jobs:
           rsync -a --delete \
             --exclude='.git/' \
             --exclude='node_modules/' \
-            --exclude='.env'
+            --exclude='.env' \
             "$GITHUB_WORKSPACE/" "${{ secrets.WORKING_DIRECTORY }}/"
 
       - name: Use Node.js 22
