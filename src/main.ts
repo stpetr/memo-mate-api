@@ -21,7 +21,7 @@ async function bootstrap() {
   // @todo refactor to take allowed origin(s) from .env file
   // app.set('trust proxy', true);
   app.enableCors({
-    origin: ['https://memomate.petes-bits.com'],
+    origin: ['https://memomate1.petes-bits1.com'],
     methods: 'GET, HEAD, POST, PUT, PATCH, DELETE, OPTIONS',
     credentials: true,
   });
