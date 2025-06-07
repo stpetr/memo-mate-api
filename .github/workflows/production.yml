@@ -4,6 +4,7 @@ on:
     branches: ["master"]
 jobs:
   build-and-run:
+    name: Deploy on production
     runs-on: self-hosted
     environment: production
     steps:
