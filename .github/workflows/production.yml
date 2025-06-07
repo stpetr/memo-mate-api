@@ -11,14 +11,14 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup working directory
-        run: mkdir -p ${{ secrets.WORKING_DIRECTORY }}
+        run: mkdir -p ${{ vars.WORKING_DIRECTORY }}
 
       - name: Generate .env file
         run: |
-          echo "PORT=${{ secrets.PORT }}" >> .env
-          echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env
-          echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env
-          echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
+          echo "PORT=${{ vars.PORT }}" >> .env
+          echo "DB_HOST=${{ vars.DB_HOST }}" >> .env
+          echo "DB_PORT=${{ vars.DB_PORT }}" >> .env
+          echo "DB_NAME=${{ vars.DB_NAME }}" >> .env
           echo "DB_LOGIN=${{ secrets.DB_LOGIN }}" >> .env
           echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
           echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
@@ -28,7 +28,7 @@ jobs:
           rsync -av --delete --no-times 
           --exclude='.git/' 
           --exclude='node_modules/' 
-          "$GITHUB_WORKSPACE/" "${{ secrets.WORKING_DIRECTORY }}/"
+          "$GITHUB_WORKSPACE/" "${{ vars.WORKING_DIRECTORY }}/"
 
       - name: Use Node.js 22
         uses: actions/setup-node@v4
@@ -38,11 +38,11 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-        working-directory: ${{ secrets.WORKING_DIRECTORY }}
+        working-directory: ${{ vars.WORKING_DIRECTORY }}
 
       - name: Build
         run: npm run build
-        working-directory: ${{ secrets.WORKING_DIRECTORY }}
+        working-directory: ${{ vars.WORKING_DIRECTORY }}
 
       - name: Restart service
-        run: sudo systemctl restart ${{ secrets.SERVICE_NAME }}
+        run: sudo systemctl restart ${{ vars.SERVICE_NAME }}
