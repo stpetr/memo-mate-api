@@ -16,6 +16,7 @@ jobs:
       - name: Generate .env file
         run: |
           echo "PORT=${{ vars.PORT }}" >> .env
+          echo "CORS_ORIGIN=${{ vars.CORS_ORIGIN }}" >> .env
           echo "DB_HOST=${{ vars.DB_HOST }}" >> .env
           echo "DB_PORT=${{ vars.DB_PORT }}" >> .env
           echo "DB_NAME=${{ vars.DB_NAME }}" >> .env

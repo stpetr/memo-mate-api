@@ -1,8 +1,11 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { NestExpressApplication } from '@nestjs/platform-express';
 
 import { useContainer } from 'class-validator';
+
+import { createCorsOptions } from 'common/helpers/cors.helper';
 
 import { AppModule } from './app.module';
 
@@ -18,13 +21,11 @@ async function bootstrap() {
     }),
   );
 
-  // @todo refactor to take allowed origin(s) from .env file
-  // app.set('trust proxy', true);
-  app.enableCors({
-    origin: ['https://memomate1.petes-bits1.com'],
-    methods: 'GET, HEAD, POST, PUT, PATCH, DELETE, OPTIONS',
-    credentials: true,
-  });
+  const config = app.get(ConfigService);
+  const rawOrigins = config.get<string>('CORS_ORIGIN', '');
+
+  const corsOptions = createCorsOptions(rawOrigins);
+  app.enableCors(corsOptions);
 
   await app.listen(process.env.PORT || 3000);
 }
